@@ -213,5 +213,5 @@ let data = {
     return efficiencyRating
   }
 
-  console.log(calculatePlayerEfficiency(data, 2022))
+  // console.log(calculatePlayerEfficiency(data, 2022))
  
