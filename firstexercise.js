@@ -88,13 +88,4 @@ calculateGoalDifference();
 calculateTeamPoints();
 displayStandings();
 
-// Output:
-// Current League Standings:
-// Team: Dream FC, Wins: 1, Draws: 0, Losses: 0
-// Team: Phoenix United, Wins: 0, Draws: 0, Losses: 1
-
-// const stats = calculateLeagueStats(); *
-// console.log(stats); *
-
-// *** for checking the code, un-tag the tags with an "*" at the end :). ***
 
