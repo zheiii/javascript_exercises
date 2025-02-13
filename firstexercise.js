@@ -1,36 +1,12 @@
 let teams = [
-  // {
-  //   name: 'Team 1',
-  //   wins: 1,
-  //   draws: 1,
-  //   losses: 1,
-  //   goalsScored: 2
-  // },
-  // {
-  //   name: 'Team 2',
-  //   wins: 0,
-  //   draws: 0,
-  //   losses: 2,
-  //   goalsScored: 1
-  // },
-  // {
-  //   name: 'Team 3',
-  //   wins: 0,
-  //   draws: 2,
-  //   losses: 0,
-  //   goalsScored: 1
-  // },
-  // {
-  //   name: 'Team 4',
-  //   wins: 2,
-  //   draws: 1,
-  //   losses: 0,
-  //   goalsScored: 5
-  // } *
+ { name: 'Team 1', wins: 1, draws: 1, losses: 1, goalsScored: 2, goalsConceded: 1, point: 0, goalDifference: 0 },
+ { name: 'Team 2', wins: 0, draws: 0, losses: 2, goalsScored: 0, goalsConceded: 2, point: 0, goalDifference: 0 },
+ { name: 'Team 3', wins: 0, draws: 2, losses: 0, goalsScored: 1, goalsConceded: 1, point: 0, goalDifference: 0 },
+ { name: 'Team 4', wins: 2, draws: 1, losses: 0, goalsScored: 5, goalsConceded: 1, point: 0, goalDifference: 0 } 
 ];
 
 function registerTeam(teamName){
-  let team = { name: "", wins: 0, draws: 0, losses: 0, goalsScored: 0, goalsConceded: 0 };
+  let team = { name: "", wins: 0, draws: 0, losses: 0, goalsScored: 0, goalsConceded: 0, point: 0, goalDifference: 0 };
   team.name = teamName;
   teams.push(team);
 };
@@ -83,10 +59,42 @@ function calculateLeagueStats() {
   stats.averageGoalsPerMatch = (stats.totalGoals) / (stats.totalMatchs)
 
   return stats
-
 };
+
+function calculateTeamPoints() {
+  for ( let team of teams ) {
+    team.point = team.wins*3 + team.draws*1 
+  };
+};
+
+function calculateGoalDifference() {
+  for ( let team of teams ) {
+    team.goalDifference = team.goalsScored-team.goalsConceded
+  };
+};
+
+function displayStandings() {
+  teams.sort((a, b) => a.point > b.point ? 1 : a.point < b.point ? -1 : a.goalDifference > b.goalDifference ? 1 : -1 )
+  teams.reverse() 
+  console.log("Current League Standings:");
+  teams.forEach(team => {
+    for ( let [key, value] of Object.entries(team)) {
+      console.log(`${key}:${value}`)
+    };
+  });
+};
+
+calculateGoalDifference();
+calculateTeamPoints();
+displayStandings();
+
+// Output:
+// Current League Standings:
+// Team: Dream FC, Wins: 1, Draws: 0, Losses: 0
+// Team: Phoenix United, Wins: 0, Draws: 0, Losses: 1
 
 // const stats = calculateLeagueStats(); *
 // console.log(stats); *
 
 // *** for checking the code, un-tag the tags with an "*" at the end :). ***
+
