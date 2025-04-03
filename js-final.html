@@ -1,0 +1,1236 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Functions and Object-Oriented Programming in JavaScript</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+pre:has(code) {
+  position: relative;
+  overflow: auto;
+
+  /* make space  */
+  margin: 5px 0;
+  padding: 1.75rem 0 1.75rem 1rem;
+  border-radius: 10px;
+}
+
+pre:has(code) button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  color: #596169;
+  font-size: 0.9rem;
+  padding: 0.15rem;
+  background-color: #e3dcdc;
+
+  border: ridge 1px #7b7b7c;
+  border-radius: 5px;
+  text-shadow: #c4c4c4 0 0 2px;
+}
+
+pre:has(code) button:hover {
+  cursor: pointer;
+  background-color: #bcbabb;
+}
+	
+</style></head><body><article id="186ec76d-2c1c-804a-962e-f6d00cc67072" class="page sans"><header><h1 class="page-title">Functions and Object-Oriented Programming in JavaScript</h1><p class="page-description"></p></header><div class="page-body"><p id="186ec76d-2c1c-8095-b195-ccf4380d2a2c" class="">This guide is intended to give you a basic understanding of <strong>functions</strong> and an introduction to <strong>Object-Oriented Programming (OOP)</strong> concepts. By the end of this lesson, you should feel confident about how to use functions effectively and why OOP can make your code more organised, maintainable, and scalable.</p><p id="186ec76d-2c1c-80bf-92cf-f0539d865931" class=""><strong>Organised</strong></p><ul id="186ec76d-2c1c-80ea-99c8-e2441464a1e5" class="bulleted-list"><li style="list-style-type:disc"><strong>What it means</strong>: Your code is neat and structured, making it easy to understand.</li></ul><ul id="186ec76d-2c1c-8063-bad3-ed56814de71b" class="bulleted-list"><li style="list-style-type:disc"><strong>Example</strong>: Imagine a bookshelf where books are sorted by category (fiction, history, etc.). It&#x27;s easy to find a book when everything has a proper place.</li></ul><ul id="186ec76d-2c1c-8036-be68-dd151ce47330" class="bulleted-list"><li style="list-style-type:disc"><strong>In coding</strong>: Group related pieces of code together, name your functions and variables clearly, and avoid clutter.</li></ul><p id="186ec76d-2c1c-8097-91bd-fda4756d2e32" class=""><strong>Maintainable</strong></p><ul id="186ec76d-2c1c-8042-a2b3-e1575407c666" class="bulleted-list"><li style="list-style-type:disc"><strong>What it means</strong>: Your code is easy to update, fix, or add new features without breaking everything.</li></ul><ul id="186ec76d-2c1c-80e2-a2d0-f00192fefc6e" class="bulleted-list"><li style="list-style-type:disc"><strong>Example</strong>: Think of a car that’s designed so mechanics can easily replace parts without disassembling the whole car.</li></ul><ul id="186ec76d-2c1c-8073-ade5-de58563a7e16" class="bulleted-list"><li style="list-style-type:disc"><strong>In coding</strong>: Write clean and modular code (e.g., using functions or classes) so you can change one part without affecting the rest.</li></ul><p id="186ec76d-2c1c-8001-9ae7-f2327d236e44" class=""><strong>Scalable</strong></p><ul id="186ec76d-2c1c-80c1-8be5-c0cc077ddd97" class="bulleted-list"><li style="list-style-type:disc"><strong>What it means</strong>: Your code can handle growth—more users, more data, or more features—without major rewrites.</li></ul><ul id="186ec76d-2c1c-8071-a304-ca8e95599ae9" class="bulleted-list"><li style="list-style-type:disc"><strong>Example</strong>: A restaurant that can easily add more tables to serve more customers.</li></ul><ul id="186ec76d-2c1c-801b-a210-c398bda79243" class="bulleted-list"><li style="list-style-type:disc"><strong>In coding</strong>: Use efficient methods and good design so your app runs smoothly even if it grows (e.g., handling 10 users vs. 1,000 users).</li></ul><hr id="186ec76d-2c1c-80ef-9e3c-fb90a653da68"/><h2 id="186ec76d-2c1c-8070-971b-c62ac7a310d4" class="">1. Understanding Functions</h2><h3 id="186ec76d-2c1c-805c-9024-e956c9304d41" class="">1.1 What is a Function?</h3><p id="186ec76d-2c1c-8057-a474-cd1919ae7bea" class="">A <strong>function</strong> is a reusable block of code that performs a specific task. Instead of writing the same code repeatedly, you can define it once in a function, then call (or “invoke”) the function whenever you need that task performed.</p><h3 id="186ec76d-2c1c-80bb-9eb7-fbced7ea4e1b" class="">1.2 Why Use Functions?</h3><ol type="1" id="186ec76d-2c1c-80b7-ac6c-d176243b59cb" class="numbered-list" start="1"><li><strong>Reusability</strong>: You write the logic once and can call it multiple times.</li></ol><ol type="1" id="186ec76d-2c1c-80ca-83da-ef4e236110f1" class="numbered-list" start="2"><li><strong>Maintainability</strong>: It’s easier to debug and modify code in a single place.</li></ol><ol type="1" id="186ec76d-2c1c-80cb-8100-e5803ac3d813" class="numbered-list" start="3"><li><strong>Readability</strong>: Functions make your code more organised by grouping related logic together.</li></ol><ol type="1" id="186ec76d-2c1c-8046-a671-dc86232fe150" class="numbered-list" start="4"><li><strong>Avoid Repetition</strong>: Repetition of logic can lead to mistakes and inconsistencies.</li></ol><h3 id="186ec76d-2c1c-80a7-ad2a-e92ce751263b" class="">1.3 Basic Example</h3><p id="186ec76d-2c1c-80b3-9279-e71fef847715" class="">Imagine you want to calculate the average goals scored in a football match:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="186ec76d-2c1c-80cf-8ebf-cb463a757c95" class="code"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">function calculateAverageGoals(totalGoals, matches) {
+  return totalGoals / matches;
+}
+
+const avgGoals = calculateAverageGoals(30, 10);
+console.log(&quot;Average goals scored per match:&quot;, avgGoals);</code></pre><h3 id="186ec76d-2c1c-8095-9ea9-e07a7dab3435" class="">1.4 Functions with No Parameters</h3><p id="186ec76d-2c1c-8090-bb21-f77cdc536a92" class="">Functions don’t necessarily <em>have</em> to accept parameters. You can simply define a function to perform a specific task without needing inputs:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="186ec76d-2c1c-8073-b7c7-e42445d86202" class="code"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">function cheerForTeam() {
+  console.log(&quot;Go, Team, Go!&quot;);
+}
+
+cheerForTeam();</code></pre><h3 id="186ec76d-2c1c-8000-86f4-f8e50f94b87e" class="">1.5 Arrow Functions - Optional Reading (ES6+ Syntax)</h3><p id="186ec76d-2c1c-8098-a1e3-d2501659cbb2" class="">In modern JavaScript, you can also define functions using <strong>arrow function</strong> syntax:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="186ec76d-2c1c-80d7-ae9e-c446c3ba5a7c" class="code"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">const calculateAverageGoals = (totalGoals, matches) =&gt; {
+  return totalGoals / matches;
+};
+
+// Or even shorter if there&#x27;s only one statement in the function body:
+const calculateAverageGoalsShort = (totalGoals, matches) =&gt; totalGoals / matches;</code></pre><hr id="186ec76d-2c1c-80b6-a304-c1d339aefa12"/><h2 id="186ec76d-2c1c-80fb-9d6a-ef87326f7518" class="">2. Exercise: Creating Multiple Functions</h2><p id="186ec76d-2c1c-80db-bf17-de304951bb6f" class="">Before we dive deeper, let’s create a scenario that naturally requires several functions. We’ll be tracking stats in a football league.</p><h3 id="186ec76d-2c1c-804f-99f6-f0885e74a9d5" class="">2.1 Scenario: Football League Tracker</h3><p id="186ec76d-2c1c-8082-a3c0-cc07ce91cb20" class="">You have the following tasks to perform:</p><ol type="1" id="186ec76d-2c1c-80b9-9dcb-e07fb20ccc47" class="numbered-list" start="1"><li><strong>Register Teams</strong>: A function to add new teams to a league.</li></ol><ol type="1" id="186ec76d-2c1c-80f2-af28-d1475fad490d" class="numbered-list" start="2"><li><strong>Record Match Results</strong>: A function to store results of each match.</li></ol><ol type="1" id="186ec76d-2c1c-80e1-b601-cae4fe47fad5" class="numbered-list" start="3"><li><strong>Calculate Statistics</strong>: A function to compute and return interesting statistics (e.g., total goals in the league, average goals per match, etc.).</li></ol><ol type="1" id="186ec76d-2c1c-80e2-bc92-d52da5f6c996" class="numbered-list" start="4"><li><strong>Display Standings</strong>: A function to display current league standings, such as wins, draws, and losses.</li></ol><p id="186ec76d-2c1c-806b-b1f3-ecf2501d01e9" class="">Let’s break it down into smaller sub-tasks:</p><h3 id="186ec76d-2c1c-808d-a6f7-fde75f23d79c" class="">2.1.1 Register Teams - With Exercise</h3><p id="186ec76d-2c1c-80d2-a162-d292d002c285" class="">Create a function that takes a list of teams and stores them in an array.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="186ec76d-2c1c-805a-9352-d38ee6fc8a29" class="code"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">let teams = [];
+
+// TODO - Create the function here, get the teamName as argument and initialise the remaining properties to default values as shown in the output example below.
+
+// Example usage:
+registerTeam(&quot;Dream FC&quot;);
+registerTeam(&quot;Phoenix United&quot;);
+console.log(teams);
+// [
+//   { name: &#x27;Dream FC&#x27;, wins: 0, draws: 0, losses: 0, goalsScored: 0, goalsConceded: 0 },
+//   { name: &#x27;Phoenix United&#x27;, wins: 0, draws: 0, losses: 0, goalsScored: 0, goalsConceded: 0 }
+// ]
+</code></pre><h3 id="186ec76d-2c1c-800a-b970-ffcad4ee68ea" class="">2.1.2 Record Match Results</h3><p id="186ec76d-2c1c-8011-b48a-cb3a2ae0398f" class="">Create a function to record the result of a match between two teams. Update their wins, draws, losses, goals scored, and goals conceded accordingly.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="186ec76d-2c1c-8081-b773-ea72d19ebbe4" class="code"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">function recordMatchResult(homeTeamName, awayTeamName, homeGoals, awayGoals) {
+  // Add instructions to update the teams array
+
+  // Find home team object
+  // Find away team object
+
+  // Update goals
+
+  // Determine result
+
+  // Update wins, draws etc.,
+}
+
+
+// Example usage:
+recordMatchResult(&quot;Dream FC&quot;, &quot;Phoenix United&quot;, 3, 1);
+console.log(teams);
+/*
+[
+  {
+    name: &#x27;Dream FC&#x27;,
+    wins: 1,         // updated
+    draws: 0,
+    losses: 0,
+    goalsScored: 3,  // updated
+    goalsConceded: 1 // updated
+  },
+  {
+    name: &#x27;Phoenix United&#x27;,
+    wins: 0,
+    draws: 0,
+    losses: 1,       // updated
+    goalsScored: 1,  // updated
+    goalsConceded: 3 // updated
+  }
+]
+*/</code></pre><h3 id="186ec76d-2c1c-8048-a740-e6d0d73d6d15" class="">2.1.3 Calculate Statistics</h3><p id="186ec76d-2c1c-8076-abe6-ff39e16092e4" class="">Create a function to calculate overall league stats:</p><ul id="186ec76d-2c1c-80a7-bd2d-c0912838b11e" class="bulleted-list"><li style="list-style-type:disc">Total matches played</li></ul><ul id="186ec76d-2c1c-80d6-8da3-de0e417e516a" class="bulleted-list"><li style="list-style-type:disc">Total goals scored</li></ul><ul id="186ec76d-2c1c-8059-a312-cfcb2193d9df" class="bulleted-list"><li style="list-style-type:disc">Average goals per match</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="186ec76d-2c1c-8011-8e6f-f07c8a2dcdf4" class="code"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">// adjust the values if they don&#x27;t make sense (I don&#x27;t know football :))
+const teams = [
+  {
+    name: &#x27;Team 1&#x27;,
+    wins: 3,
+    draws: 1,
+    losses: 10,
+    goalsScored: 4
+  },
+  {
+    name: &#x27;Team 2&#x27;,
+    wins: 4,
+    draws: 2,
+    losses: 8,
+    goalsScored: 6
+  },
+  {
+    name: &#x27;Team 3&#x27;,
+    wins: 5,
+    draws: 3,
+    losses: 6,
+    goalsScored: 8
+  }
+];
+
+function calculateLeagueStats() {
+  // TODO: complete the function
+}
+
+// Example usage:
+const stats = calculateLeagueStats();
+console.log(stats);
+//Example output { totalMatches: 1, totalGoals: 4, averageGoalsPerMatch: 4 }</code></pre><h3 id="186ec76d-2c1c-80f3-9280-eef7ed597bfc" class="">2.1.4 Display Standings</h3><p id="186ec76d-2c1c-803c-b477-d60f1bbef950" class="">Create a function that prints out the league standings in a nice format:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="186ec76d-2c1c-8060-850b-eed88fd09941" class="code"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">function displayStandings() {
+  console.log(&quot;Current League Standings:&quot;);
+  // TODO: complete the function
+}
+
+displayStandings();
+// Output:
+// Current League Standings:
+// Team: Dream FC, Wins: 1, Draws: 0, Losses: 0
+// Team: Phoenix United, Wins: 0, Draws: 0, Losses: 1</code></pre><h3 id="186ec76d-2c1c-8078-a309-f0791e35e6ab" class="">2.2 Exercise</h3><h3 id="186ec76d-2c1c-80ea-aef0-d58fde0d33b4" class=""><strong>Objective</strong></h3><p id="186ec76d-2c1c-800d-a65e-ed02ce2d81bd" class="">Develop a set of JavaScript functions to analyse detailed football data spanning multiple seasons. You&#x27;ll work with complex JSON objects representing teams, players, matches, and seasons. The goal is to extract meaningful insights, such as calculating player efficiency, determining top performers across seasons, and computing various advanced statistics.</p><h3 id="186ec76d-2c1c-8043-93fe-db765151f69f" class=""><strong>Scenario</strong></h3><p id="186ec76d-2c1c-8002-bce2-e1ff4953cd4c" class="">You are provided with a JSON dataset containing information about multiple football seasons. Each season includes details about teams, players, matches, and individual player performances. Your task is to process this data to generate comprehensive statistics and insights.</p><h3 id="186ec76d-2c1c-80d9-9ac5-f975d2572ac1" class=""><strong>Dataset Structure</strong></h3><p id="186ec76d-2c1c-804e-beeb-cbeb02467191" class="">Here&#x27;s an example of the JSON structure you&#x27;ll be working with:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="186ec76d-2c1c-80f7-be7b-c02bb827019d" class="code"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">{
+  &quot;seasons&quot;: [
+    {
+      &quot;year&quot;: 2021,
+      &quot;teams&quot;: [
+        {
+          &quot;id&quot;: 1,
+          &quot;name&quot;: &quot;Dream FC&quot;,
+          &quot;city&quot;: &quot;Dreamland&quot;,
+          &quot;stadium&quot;: &quot;Dream Stadium&quot;,
+          &quot;players&quot;: [
+            {
+              &quot;id&quot;: 101,
+              &quot;name&quot;: &quot;John Doe&quot;,
+              &quot;position&quot;: &quot;Forward&quot;,
+              &quot;age&quot;: 28,
+              &quot;statistics&quot;: {
+                &quot;matchesPlayed&quot;: 30,
+                &quot;goals&quot;: 15,
+                &quot;assists&quot;: 7,
+                &quot;yellowCards&quot;: 3,
+                &quot;redCards&quot;: 0,
+                &quot;minutesPlayed&quot;: 2700
+              }
+            },
+            {
+              &quot;id&quot;: 102,
+              &quot;name&quot;: &quot;Jane Smith&quot;,
+              &quot;position&quot;: &quot;Midfielder&quot;,
+              &quot;age&quot;: 25,
+              &quot;statistics&quot;: {
+                &quot;matchesPlayed&quot;: 28,
+                &quot;goals&quot;: 8,
+                &quot;assists&quot;: 12,
+                &quot;yellowCards&quot;: 5,
+                &quot;redCards&quot;: 1,
+                &quot;minutesPlayed&quot;: 2500
+              }
+            }
+            // More players...
+          ]
+        },
+        {
+          &quot;id&quot;: 2,
+          &quot;name&quot;: &quot;Phoenix United&quot;,
+          &quot;city&quot;: &quot;Phoenix City&quot;,
+          &quot;stadium&quot;: &quot;Phoenix Arena&quot;,
+          &quot;players&quot;: [
+            {
+              &quot;id&quot;: 201,
+              &quot;name&quot;: &quot;Carlos Ruiz&quot;,
+              &quot;position&quot;: &quot;Defender&quot;,
+              &quot;age&quot;: 30,
+              &quot;statistics&quot;: {
+                &quot;matchesPlayed&quot;: 32,
+                &quot;goals&quot;: 2,
+                &quot;assists&quot;: 3,
+                &quot;yellowCards&quot;: 6,
+                &quot;redCards&quot;: 0,
+                &quot;minutesPlayed&quot;: 2880
+              }
+            }
+            // More players...
+          ]
+        }
+        // More teams...
+      ],
+      &quot;matches&quot;: [
+        {
+          &quot;id&quot;: 1001,
+          &quot;date&quot;: &quot;2021-08-15&quot;,
+          &quot;homeTeamId&quot;: 1,
+          &quot;awayTeamId&quot;: 2,
+          &quot;homeGoals&quot;: 2,
+          &quot;awayGoals&quot;: 1,
+          &quot;events&quot;: [
+            {
+              &quot;minute&quot;: 23,
+              &quot;type&quot;: &quot;goal&quot;,
+              &quot;teamId&quot;: 1,
+              &quot;playerId&quot;: 101,
+              &quot;assistId&quot;: 102
+            },
+            {
+              &quot;minute&quot;: 45,
+              &quot;type&quot;: &quot;yellowCard&quot;,
+              &quot;teamId&quot;: 2,
+              &quot;playerId&quot;: 201
+            },
+            {
+              &quot;minute&quot;: 60,
+              &quot;type&quot;: &quot;goal&quot;,
+              &quot;teamId&quot;: 2,
+              &quot;playerId&quot;: 202,
+              &quot;assistId&quot;: 201
+            },
+            {
+              &quot;minute&quot;: 75,
+              &quot;type&quot;: &quot;goal&quot;,
+              &quot;teamId&quot;: 1,
+              &quot;playerId&quot;: 103,
+              &quot;assistId&quot;: 104
+            }
+            // More events...
+          ]
+        }
+        // More matches...
+      ]
+    }
+    // More seasons...
+  ]
+}
+</code></pre><p id="186ec76d-2c1c-8036-b819-e058cf8a2207" class=""><strong>Notes:</strong></p><ul id="186ec76d-2c1c-804f-853d-ce9221ab77d7" class="bulleted-list"><li style="list-style-type:disc">Each <strong>season</strong> contains multiple <strong>teams</strong> and <strong>matches</strong>.</li></ul><ul id="186ec76d-2c1c-807b-af44-e4f33f8b6691" class="bulleted-list"><li style="list-style-type:disc">Each <strong>team</strong> has a list of <strong>players</strong>, each with their own <strong>statistics</strong>.</li></ul><ul id="186ec76d-2c1c-8029-9b7c-c91506f85617" class="bulleted-list"><li style="list-style-type:disc">Each <strong>match</strong> includes detailed <strong>events</strong> such as goals, assists, and cards.</li></ul><h3 id="186ec76d-2c1c-8000-898e-d8a2476b9492" class=""><strong>Tasks</strong></h3><p id="186ec76d-2c1c-80a0-8252-f0b32069feed" class="">Implement the following functions to analyze the dataset. Each function should be written in JavaScript and operate purely with functions.</p><h3 id="186ec76d-2c1c-8076-b250-eb63fc2b6962" class=""><strong>2.2.1. Calculate Player Efficiency Rating</strong></h3><p id="186ec76d-2c1c-80c4-8b9c-d1a094fee517" class=""><strong>Function Name:</strong> <code>calculatePlayerEfficiency</code></p><p id="186ec76d-2c1c-80a3-ad13-f8ceb6b39737" class=""><strong>Description:</strong></p><p id="186ec76d-2c1c-80c6-a2a2-ffa3129099d2" class="">Calculate an efficiency rating for each player based on their performance statistics. The efficiency rating is a weighted score considering goals, assists, minutes played, and disciplinary records.</p><p id="186ec76d-2c1c-8076-8962-c4efb7063398" class=""><strong>Requirements:</strong></p><ul id="186ec76d-2c1c-80b5-8ecc-f5e412bbf087" class="bulleted-list"><li style="list-style-type:disc">Return a new array of players with their efficiency ratings for a given season.</li></ul><ul id="186ec76d-2c1c-80ce-99c1-ccec02f501a2" class="bulleted-list"><li style="list-style-type:disc">Sort the players in descending order of efficiency.</li></ul><p id="186ec76d-2c1c-80ee-8b80-f4da9cf23c81" class=""><strong>Example Usage:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="186ec76d-2c1c-8060-aa30-fb40ddeb24a2" class="code"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">const efficiencyRatings = calculatePlayerEfficiency(data, 2021);
+console.log(efficiencyRatings);
+/*
+[
+  { playerId: 101, name: &quot;John Doe&quot;, efficiency: 70 },
+  { playerId: 102, name: &quot;Jane Smith&quot;, efficiency: 65 },
+  // More players...
+]
+*/</code></pre><h3 id="186ec76d-2c1c-8042-b2ce-e17722aef8ba" class=""><strong>2.2.2</strong>. Identify Top Scorers Across All Seasons</h3><p id="186ec76d-2c1c-80c9-9fe4-dc60971c527d" class=""><strong>Function Name:</strong> <code>getTopScorers</code></p><p id="186ec76d-2c1c-808a-903e-edcf13a07413" class=""><strong>Description:</strong></p><p id="186ec76d-2c1c-8009-ba5b-dcae9ef5bd1c" class="">Determine the top N goal scorers across all seasons combined.</p><p id="186ec76d-2c1c-80d1-be55-c786b0060a1e" class=""><strong>Requirements:</strong></p><ul id="186ec76d-2c1c-8030-8bba-c4fdbcf96f36" class="bulleted-list"><li style="list-style-type:disc">Accept a parameter <code>N</code> to specify how many top scorers to return.</li></ul><ul id="186ec76d-2c1c-8017-a6ba-e5eff02515bd" class="bulleted-list"><li style="list-style-type:disc">Aggregate goals scored by each player across all seasons.</li></ul><ul id="186ec76d-2c1c-8055-8b1e-c8eac7ddac91" class="bulleted-list"><li style="list-style-type:disc">Return an array of the top N players with the highest goal counts.</li></ul><p id="186ec76d-2c1c-80e5-82e0-c22d4796eeea" class=""><strong>Example Usage:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="186ec76d-2c1c-80fd-a582-f443bbc82864" class="code"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">const topScorers = getTopScorers(data, 5);
+console.log(topScorers);
+/*
+[
+  { playerId: 105, name: &quot;Alice Johnson&quot;, totalGoals: 50 },
+  { playerId: 112, name: &quot;Bob Lee&quot;, totalGoals: 45 },
+  // Top 5 scorers...
+]
+*/</code></pre><h3 id="186ec76d-2c1c-8096-90a8-d4f38cde33a2" class=""><strong>2.2.3. Compute Team Performance Metrics</strong></h3><p id="186ec76d-2c1c-8018-b9cb-e06ae3ca6dee" class=""><strong>Function Name:</strong> <code>computeTeamMetrics</code></p><p id="186ec76d-2c1c-8006-85fc-c313eaec7950" class=""><strong>Description:</strong></p><p id="186ec76d-2c1c-8057-b904-fd177b1c3e13" class="">For a specific team in a given season, calculate performance metrics such as total goals scored, total goals conceded, average goals per match, and win/loss/draw ratios.</p><p id="186ec76d-2c1c-8076-9b6b-ca89ae88c66d" class=""><strong>Requirements:</strong></p><ul id="186ec76d-2c1c-8021-a995-cfc9e788a4f7" class="bulleted-list"><li style="list-style-type:disc">Accept <code>teamId</code> and <code>seasonYear</code> as parameters.</li></ul><ul id="186ec76d-2c1c-8066-b0cf-ca1507aa6c4b" class="bulleted-list"><li style="list-style-type:disc">Analyze all matches involving the specified team in the given season.</li></ul><ul id="186ec76d-2c1c-804d-91cf-d685863e24b0" class="bulleted-list"><li style="list-style-type:disc">Return an object containing the calculated metrics.</li></ul><p id="186ec76d-2c1c-80d6-89a9-f02d90a14584" class=""><strong>Example Usage:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="186ec76d-2c1c-8061-bc89-e22469f38d29" class="code"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">const teamMetrics = computeTeamMetrics(data, 1, 2021);
+console.log(teamMetrics);
+/*
+{
+  teamId: 1,
+  teamName: &quot;Dream FC&quot;,
+  totalGoalsScored: 45,
+  totalGoalsConceded: 30,
+  averageGoalsPerMatch: 1.8,
+  wins: 15,
+  draws: 10,
+  losses: 5
+}
+*/</code></pre><h3 id="186ec76d-2c1c-805a-8bfc-f20d7a031aac" class=""><strong>2.2.4. Determine Most Consistent Player</strong></h3><p id="186ec76d-2c1c-80e0-aa0a-db7a3f784762" class=""><strong>Function Name:</strong> <code>findMostConsistentPlayer</code></p><p id="186ec76d-2c1c-80c4-9ab4-e7264c71a7fb" class=""><strong>Description:</strong></p><p id="186ec76d-2c1c-802a-86d0-eb8042409d26" class="">Identify the player with the least variance in performance metrics (e.g., goals and assists per match) across all seasons, indicating consistent performance.</p><p id="186ec76d-2c1c-8031-baa0-df74c70fdf87" class=""><strong>Requirements:</strong></p><ul id="186ec76d-2c1c-803b-aa24-ce8b212e5f31" class="bulleted-list"><li style="list-style-type:disc">Calculate the variance in goals and assists per match for each player.</li></ul><ul id="186ec76d-2c1c-80bc-a5e2-f6d8f1afa806" class="bulleted-list"><li style="list-style-type:disc">Combine variances to determine overall consistency.</li></ul><ul id="186ec76d-2c1c-8059-8452-fad9d0da577f" class="bulleted-list"><li style="list-style-type:disc">Return the player with the lowest combined variance.</li></ul><p id="186ec76d-2c1c-809a-ab38-d1ad413619bb" class=""><strong>Example Usage:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="186ec76d-2c1c-80ad-836c-f09e9fd0d532" class="code"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">const consistentPlayer = findMostConsistentPlayer(data);
+console.log(consistentPlayer);
+/*
+{
+  playerId: 103,
+  name: &quot;Carlos Mendes&quot;,
+  consistencyScore: 2.1 // Lower is more consistent
+}
+*/</code></pre><h3 id="186ec76d-2c1c-807d-a837-e127aef19bde" class=""><strong>2.2.5. Analyze Head-to-Head Statistics</strong></h3><p id="186ec76d-2c1c-8065-8b77-ccdb76d8214e" class=""><strong>Function Name:</strong> <code>headToHeadStats</code></p><p id="186ec76d-2c1c-801e-8b2a-e22000ae9ad3" class=""><strong>Description:</strong></p><p id="186ec76d-2c1c-809b-af9c-ff37a1c857ea" class="">For two specified teams, analyze their head-to-head performance across all seasons. Provide statistics such as number of matches played against each other, wins, draws, losses, total goals scored by each team, and goal differences.</p><p id="186ec76d-2c1c-8084-963d-fd7c388897ea" class=""><strong>Requirements:</strong></p><ul id="186ec76d-2c1c-80a9-83e0-fa4fabda72d7" class="bulleted-list"><li style="list-style-type:disc">Accept two <code>teamId</code>s as parameters.</li></ul><ul id="186ec76d-2c1c-803f-bf47-e8e4d71810d7" class="bulleted-list"><li style="list-style-type:disc">Traverse all seasons and matches to find encounters between the two teams.</li></ul><ul id="186ec76d-2c1c-806e-bcb8-c5494a12528f" class="bulleted-list"><li style="list-style-type:disc">Compile and return comprehensive head-to-head statistics.</li></ul><p id="186ec76d-2c1c-8004-9289-c9e93bc2e8f7" class=""><strong>Example Usage:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="186ec76d-2c1c-804f-a8db-fd03cb1c2991" class="code"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">const h2h = headToHeadStats(data, 1, 2);
+console.log(h2h);
+/*
+{
+  teamAId: 1,
+  teamAName: &quot;Dream FC&quot;,
+  teamBId: 2,
+  teamBName: &quot;Phoenix United&quot;,
+  matchesPlayed: 10,
+  teamAWins: 6,
+  teamBWins: 3,
+  draws: 1,
+  teamAGoals: 20,
+  teamBGoals: 15,
+  goalDifference: {
+    teamA: +5,
+    teamB: -5
+  }
+}
+*/</code></pre><h3 id="186ec76d-2c1c-8057-9cbc-d59acf77c376" class=""><strong>2.2.6. Generate Seasonal Player Rankings</strong></h3><p id="186ec76d-2c1c-8090-a003-c6e404fff8cb" class=""><strong>Function Name:</strong> <code>generateSeasonRankings</code></p><p id="186ec76d-2c1c-80c3-8928-f0a2e37db02b" class=""><strong>Description:</strong></p><p id="186ec76d-2c1c-80a4-bc6c-e462da2d39ce" class="">For a specific season, generate rankings for players based on multiple criteria such as goals, assists, and efficiency ratings.</p><p id="186ec76d-2c1c-800e-8ea8-c074248c0bdf" class=""><strong>Requirements:</strong></p><ul id="186ec76d-2c1c-80ea-988f-d93cc8bb7262" class="bulleted-list"><li style="list-style-type:disc">Accept <code>seasonYear</code> as a parameter.</li></ul><ul id="186ec76d-2c1c-804b-935e-e7893e3e736b" class="bulleted-list"><li style="list-style-type:disc">Allow sorting based on different criteria (e.g., highest goals, highest assists, highest efficiency).</li></ul><ul id="186ec76d-2c1c-8003-a871-c7ae8bc47c11" class="bulleted-list"><li style="list-style-type:disc">Return a sorted array of players with their respective rankings.</li></ul><p id="186ec76d-2c1c-8015-9a8c-ea62a73c0f56" class=""><strong>Example Usage:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="186ec76d-2c1c-80d8-8cbb-fd63e1435ddf" class="code"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">const seasonRankings = generateSeasonRankings(data, 2021, &#x27;efficiency&#x27;);
+console.log(seasonRankings);
+/*
+[
+  { rank: 1, playerId: 101, name: &quot;John Doe&quot;, efficiency: 70 },
+  { rank: 2, playerId: 104, name: &quot;Emily Clark&quot;, efficiency: 68 },
+  // More ranked players...
+]
+*/</code></pre><h3 id="186ec76d-2c1c-80c0-a46c-c9f5102d27c9" class=""><strong>2.2.7. Guidelines and Tips</strong></h3><ol type="1" id="186ec76d-2c1c-8059-9c73-e2d7a1b6fd0b" class="numbered-list" start="1"><li><strong>Understand the Data Structure:</strong><ul id="186ec76d-2c1c-8094-857d-e43c757f3d25" class="bulleted-list"><li style="list-style-type:disc">Familiarize yourself with the JSON structure. Note how seasons contain teams and matches, teams contain players, and matches contain events.</li></ul></li></ol><ol type="1" id="186ec76d-2c1c-805b-8f6c-d02297a271f7" class="numbered-list" start="2"><li><strong>Function Design:</strong><ul id="186ec76d-2c1c-800e-8ae7-d77504b2bf7a" class="bulleted-list"><li style="list-style-type:disc">Break down each task into smaller, manageable functions if necessary.</li></ul><ul id="186ec76d-2c1c-80f2-a8c0-ed9269aa9ac8" class="bulleted-list"><li style="list-style-type:disc">Ensure functions are pure and do not produce side effects (i.e., avoid modifying the original data).</li></ul></li></ol><ol type="1" id="186ec76d-2c1c-80c1-a4c9-eb41ae6160f6" class="numbered-list" start="3"><li><strong>Data Validation:</strong><ul id="186ec76d-2c1c-807e-8f04-eace626e0cab" class="bulleted-list"><li style="list-style-type:disc">Implement checks to handle missing or inconsistent data gracefully.</li></ul><ul id="186ec76d-2c1c-805a-9345-ef4a9dc6e674" class="bulleted-list"><li style="list-style-type:disc">Ensure that IDs used in matches and events correspond to existing teams and players.</li></ul></li></ol><ol type="1" id="186ec76d-2c1c-80c8-899d-c967352c9ea2" class="numbered-list" start="4"><li><strong>Performance Considerations:</strong><ul id="186ec76d-2c1c-8066-b0bc-de39f7345c82" class="bulleted-list"><li style="list-style-type:disc">Optimize data traversal to minimize redundant iterations, especially when dealing with large datasets.</li></ul></li></ol><ol type="1" id="186ec76d-2c1c-8046-b924-c707c4171c4c" class="numbered-list" start="5"><li><strong>Reusable Code:</strong><ul id="186ec76d-2c1c-8034-919d-e369ac0201da" class="bulleted-list"><li style="list-style-type:disc">Identify patterns or repeated logic across functions and abstract them into helper functions.</li></ul></li></ol><ol type="1" id="186ec76d-2c1c-80e8-b9fd-df652717cc78" class="numbered-list" start="6"><li><strong>Documentation:</strong><ul id="186ec76d-2c1c-8089-905e-f117ef6e57ba" class="bulleted-list"><li style="list-style-type:disc">Comment your code to explain complex logic and decisions.</li></ul><ul id="186ec76d-2c1c-80bc-8a59-e227c91020c0" class="bulleted-list"><li style="list-style-type:disc">Provide clear function descriptions and parameter explanations.</li></ul></li></ol><ol type="1" id="186ec76d-2c1c-8062-9655-e86e91232a67" class="numbered-list" start="7"><li><strong>Testing:</strong><ul id="186ec76d-2c1c-8004-9d44-e8e146401ca9" class="bulleted-list"><li style="list-style-type:disc">Create test cases with sample data to verify the correctness of each function.</li></ul><ul id="186ec76d-2c1c-8023-9c41-eb6de8416bdb" class="bulleted-list"><li style="list-style-type:disc">Consider edge cases, such as players with no goals or matches with no goals.</li></ul></li></ol><ol type="1" id="186ec76d-2c1c-8046-af00-dcdd48a37028" class="numbered-list" start="8"><li><strong>Modularity:</strong><ul id="186ec76d-2c1c-806b-ba87-deded7a1b11e" class="bulleted-list"><li style="list-style-type:disc">Keep your functions modular to enhance readability and maintainability.</li></ul></li></ol><hr id="186ec76d-2c1c-801c-b44c-e148abb7bb8c"/><h2 id="186ec76d-2c1c-8043-840d-e8476e311ad7" class="">3. When Functions Become Numerous: Considering OOP</h2><p id="186ec76d-2c1c-8044-a2bb-f76c0d747b4c" class="">As you can see from the examples and exercises above, we have a growing list of functions: registering teams, recording results, calculating stats, displaying standings, etc. Over time, your application might grow even further, adding more functionalities. Soon, keeping track of how all these functions relate to each other can become confusing.</p><p id="186ec76d-2c1c-8075-b6ba-d8f5306f6f80" class="">This is where <strong>Object-Oriented Programming (OOP)</strong> can help.</p><h3 id="186ec76d-2c1c-80c3-9d54-fad24c18b0db" class="">3.1 What is OOP?</h3><p id="186ec76d-2c1c-8055-a494-d51b17c4d1a7" class="">Object-Oriented Programming is a programming paradigm where we structure our code around <strong>objects</strong>. Each object can contain:</p><ul id="186ec76d-2c1c-807a-b4a3-d9f0713009f4" class="bulleted-list"><li style="list-style-type:disc"><strong>Properties</strong> (like variables or data)</li></ul><ul id="186ec76d-2c1c-8066-93e7-f9736e7d0c6a" class="bulleted-list"><li style="list-style-type:disc"><strong>Methods</strong> (like functions, but tied to the object)</li></ul><h3 id="186ec76d-2c1c-8068-94b8-f7bee6b9ba08" class="">3.2 Benefits of OOP</h3><ol type="1" id="186ec76d-2c1c-8018-b0c3-fd1e845e8977" class="numbered-list" start="1"><li><strong>Encapsulation</strong>: Group related data and methods together in a single unit (object).</li></ol><ol type="1" id="186ec76d-2c1c-80ae-8b14-e61022553f6e" class="numbered-list" start="2"><li><strong>Reusability</strong> (via Inheritance): One class can inherit properties and methods from another.</li></ol><ol type="1" id="186ec76d-2c1c-8061-b941-fd8db9f0623f" class="numbered-list" start="3"><li><strong>Modularity</strong>: Organize code into logical sections or “blueprints,” making it easy to navigate and maintain.</li></ol><ol type="1" id="186ec76d-2c1c-80b7-ac0f-c96b382ae61f" class="numbered-list" start="4"><li><strong>Maintainability</strong>: Changes in one object/class often don’t affect the code in other objects/classes as long as the interface remains the same.</li></ol><h3 id="186ec76d-2c1c-8066-bc9e-c6855f20ed0c" class=""><strong>3.3 What Are Classes?</strong></h3><p id="186ec76d-2c1c-80b9-9b17-cda2500316e5" class="">In Object-Oriented Programming, a <strong>class</strong> is like a blueprint for creating objects. It defines what properties (data) and methods (functions) the objects will have. While objects are the actual instances you interact with in your program, the class serves as the template to create them.</p><h3 id="186ec76d-2c1c-80c6-87fa-e58e66c3f38e" class=""><strong>3.3.1 Class Syntax</strong></h3><p id="186ec76d-2c1c-80e6-b971-e3cce713c125" class="">In JavaScript, you define a class using the <code>class</code> keyword. Here’s a basic example:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="186ec76d-2c1c-8050-8736-f75475666c84" class="code"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">class Team {
+  // The blueprint for a team
+  constructor(name, city) {
+    this.name = name; // Property
+    this.city = city; // Property
+  }
+
+  // Method
+  displayInfo() {
+    console.log(`Team: ${this.name}, City: ${this.city}`);
+  }
+}
+
+// Creating an object (instance) from the class
+const team1 = new Team(&quot;Dream FC&quot;, &quot;Dreamland&quot;);
+team1.displayInfo(); // Output: Team: Dream FC, City: Dreamland
+</code></pre><h3 id="186ec76d-2c1c-8056-a6ee-d31717c15aa5" class=""><strong>3.3.2 What Is a Constructor?</strong></h3><p id="186ec76d-2c1c-80af-a28b-f3c478bde8a9" class="">The <strong>constructor</strong> is a special method in a class that is automatically called when you create a new object (or instance) of that class. It is used to initialize the object’s properties.</p><ul id="186ec76d-2c1c-80a5-a6d6-d81534f531c7" class="bulleted-list"><li style="list-style-type:disc"><strong>Purpose</strong>: The constructor is like a setup function that runs once when an object is created.</li></ul><ul id="186ec76d-2c1c-8090-bca8-e2bc4384717a" class="bulleted-list"><li style="list-style-type:disc"><strong>Syntax</strong>: The constructor method is defined using the keyword <code>constructor</code>.</li></ul><p id="186ec76d-2c1c-80dc-9481-e5665dc2ef55" class="">Here’s an example:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="186ec76d-2c1c-8014-92f1-ddabe3edaecb" class="code"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">class Player {
+  constructor(name, position, age) {
+    this.name = name; // Assign the name to the object
+    this.position = position; // Assign the position to the object
+    this.age = age; // Assign the age to the object
+  }
+
+  // Method to display player info
+  displayInfo() {
+    console.log(`${this.name} plays as a ${this.position} and is ${this.age} years old.`);
+  }
+}
+
+const player1 = new Player(&quot;John Doe&quot;, &quot;Forward&quot;, 28);
+player1.displayInfo(); // Output: John Doe plays as a Forward and is 28 years old.
+</code></pre><h3 id="186ec76d-2c1c-8014-a4aa-dd3ff6bcc51c" class=""><strong>Key Points About the Constructor:</strong></h3><ol type="1" id="186ec76d-2c1c-8023-b80a-d14621756a1c" class="numbered-list" start="1"><li>The constructor is optional. If you don’t need to initialize any properties during object creation, you can omit it.</li></ol><ol type="1" id="186ec76d-2c1c-807b-88d1-e81681427fa4" class="numbered-list" start="2"><li>A class can have only <strong>one constructor</strong>. If you define more than one, you’ll get an error.</li></ol><ol type="1" id="186ec76d-2c1c-80fa-b599-daff0f5e06f8" class="numbered-list" start="3"><li>You can pass arguments to the constructor to initialize an object with dynamic values.</li></ol><hr id="186ec76d-2c1c-80bc-bffb-d8b8f4045c6c"/><h3 id="186ec76d-2c1c-800e-8953-ea7c25aa4996" class=""><strong>3.3.3 Classes vs. Objects</strong></h3><p id="186ec76d-2c1c-80de-9fed-de6d0242c119" class="">Let’s clarify the difference between <strong>classes</strong> and <strong>objects</strong>:</p><table id="186ec76d-2c1c-8035-a23a-fbe3ffda8ae8" class="simple-table"><tbody><tr id="186ec76d-2c1c-80ff-8a93-f231c452ce4b"><td id="&gt;MQp" class=""><strong>Aspect</strong></td><td id="pBT|" class=""><strong>Class</strong></td><td id="N:zX" class=""><strong>Object</strong></td></tr><tr id="186ec76d-2c1c-80ac-8f59-e9759b07384b"><td id="&gt;MQp" class=""><strong>Definition</strong></td><td id="pBT|" class="">A blueprint or template for creating objects.</td><td id="N:zX" class="">An instance of a class, created using the <code>new</code> keyword.</td></tr><tr id="186ec76d-2c1c-807e-aa49-f443e852ead1"><td id="&gt;MQp" class=""><strong>Purpose</strong></td><td id="pBT|" class="">Defines properties and methods that objects created from it will have.</td><td id="N:zX" class="">Represents an individual entity with specific data and behavior defined by the class.</td></tr><tr id="186ec76d-2c1c-807d-82a1-e6f95ab25646"><td id="&gt;MQp" class=""><strong>Example</strong></td><td id="pBT|" class=""><code>class Team { ... }</code></td><td id="N:zX" class=""><code>const team1 = new Team(&quot;Dream FC&quot;, &quot;Dreamland&quot;);</code></td></tr><tr id="186ec76d-2c1c-8075-a3d0-c5f1654b81cf"><td id="&gt;MQp" class=""><strong>Reusability</strong></td><td id="pBT|" class="">Can be used to create multiple objects with similar structure.</td><td id="N:zX" class="">Each object has its own unique data, but shares the structure and behavior defined by the class.</td></tr></tbody></table><h3 id="186ec76d-2c1c-8077-b13e-c98aacfaf704" class="">Example:</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="186ec76d-2c1c-8094-8afb-ff9ba552974a" class="code"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">// Class definition
+class Team {
+  constructor(name, city) {
+    this.name = name;
+    this.city = city;
+  }
+
+  displayInfo() {
+    console.log(`Team: ${this.name}, City: ${this.city}`);
+  }
+}
+
+// Objects (instances) of the class
+const team1 = new Team(&quot;Dream FC&quot;, &quot;Dreamland&quot;);
+const team2 = new Team(&quot;Phoenix United&quot;, &quot;Phoenix City&quot;);
+
+team1.displayInfo(); // Team: Dream FC, City: Dreamland
+team2.displayInfo(); // Team: Phoenix United, City: Phoenix City</code></pre><p id="186ec76d-2c1c-805b-bab9-ee0f606faa26" class="">Here:</p><ul id="186ec76d-2c1c-8027-b6f3-f281f8bc7c69" class="bulleted-list"><li style="list-style-type:disc">The <strong>class</strong> is <code>Team</code>, defining what every team object will look like and do.</li></ul><ul id="186ec76d-2c1c-8098-b92f-df511cdbd580" class="bulleted-list"><li style="list-style-type:disc">The <strong>objects</strong> (<code>team1</code> and <code>team2</code>) are individual instances of the <code>Team</code> class, each with its own unique data.</li></ul><hr id="186ec76d-2c1c-80c6-953e-d27b75095896"/><h3 id="186ec76d-2c1c-8056-afb5-fdd698057169" class=""><strong>3.3.4 Adding Methods to Classes</strong></h3><p id="186ec76d-2c1c-8057-89e0-d1a59aea4c49" class="">Methods are functions defined inside a class that operate on the object’s data (properties). These methods can manipulate or display the object’s data.</p><p id="186ec76d-2c1c-808d-8c64-d9bf3a14c59f" class="">Example:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="186ec76d-2c1c-804a-a49e-f7a5d15474f2" class="code"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">class Player {
+  constructor(name, position, goals) {
+    this.name = name;
+    this.position = position;
+    this.goals = goals;
+  }
+
+  // Method to update the number of goals
+  scoreGoal() {
+    this.goals += 1;
+    console.log(`${this.name} has scored! Total goals: ${this.goals}`);
+  }
+
+  // Method to display player stats
+  displayStats() {
+    console.log(`Player: ${this.name}, Position: ${this.position}, Goals: ${this.goals}`);
+  }
+}
+
+const player1 = new Player(&quot;John Doe&quot;, &quot;Forward&quot;, 15);
+player1.scoreGoal(); // John Doe has scored! Total goals: 16
+player1.displayStats(); // Player: John Doe, Position: Forward, Goals: 16</code></pre><hr id="186ec76d-2c1c-8096-aa14-f0593e4a4db5"/><h3 id="186ec76d-2c1c-8018-8ff7-cebbacfcb689" class=""><strong>3.3.5 Why Use Classes Instead of Functions?</strong></h3><p id="186ec76d-2c1c-80f9-a9c8-f17a5916621c" class="">In the exercises earlier, we used <strong>functions</strong> to manage tasks like registering teams, recording results, and calculating stats. As the complexity increased, these functions became harder to manage. Using classes instead of standalone functions offers several advantages:</p><ol type="1" id="186ec76d-2c1c-806c-959a-e73032214621" class="numbered-list" start="1"><li><strong>Grouping Related Data and Behavior:</strong><ul id="186ec76d-2c1c-8017-b39a-d7c66e5f5cd9" class="bulleted-list"><li style="list-style-type:disc">A class ties data (properties) and functions (methods) together, making your code more organized.</li></ul><ul id="186ec76d-2c1c-804a-ba41-f79146b8dde2" class="bulleted-list"><li style="list-style-type:disc">Example: A <code>Player</code> class contains all data and behavior related to a player, instead of having separate functions like <code>addPlayer()</code> or <code>updateGoals()</code> scattered throughout the code.</li></ul></li></ol><ol type="1" id="186ec76d-2c1c-803e-8802-cbb7facd5e73" class="numbered-list" start="2"><li><strong>Reusability:</strong><ul id="186ec76d-2c1c-80af-86ff-c28ad99abb46" class="bulleted-list"><li style="list-style-type:disc">A class can be reused to create multiple objects with the same structure but different data.</li></ul><ul id="186ec76d-2c1c-80ac-affb-ea90c79e2dc3" class="bulleted-list"><li style="list-style-type:disc">Example: You can create multiple teams from a single <code>Team</code> class, each with unique names, cities, and players.</li></ul></li></ol><ol type="1" id="186ec76d-2c1c-8098-b6b2-d6a36c74d860" class="numbered-list" start="3"><li><strong>Readability and Maintainability:</strong><ul id="186ec76d-2c1c-80a7-8f40-c87a222a2e1f" class="bulleted-list"><li style="list-style-type:disc">Classes make it easier to understand how data and behavior are connected.</li></ul><ul id="186ec76d-2c1c-80f2-8bc0-f626b138080d" class="bulleted-list"><li style="list-style-type:disc">If something needs to be changed, you can update the class definition instead of searching for every instance where related functions are used.</li></ul></li></ol><ol type="1" id="186ec76d-2c1c-80df-a5e9-d437fd08929e" class="numbered-list" start="4"><li><strong>Extensibility:</strong><ul id="186ec76d-2c1c-80f2-ab55-c0b6c3ddae60" class="bulleted-list"><li style="list-style-type:disc">Classes can be extended using <strong>inheritance</strong>, which allows new classes to reuse and add to the functionality of existing ones. (This will be covered later.)</li></ul></li></ol><hr id="186ec76d-2c1c-80ee-83a9-c5403ab33792"/><h3 id="186ec76d-2c1c-807b-81dc-f1c55bff359a" class=""><strong>3.3.6 How Classes Simplify the Football League Example</strong></h3><p id="186ec76d-2c1c-80ec-b3f0-ec6212645032" class="">Consider the earlier example where we registered teams, recorded match results, and calculated statistics. With classes, we can group all the related properties and methods into logical units.</p><h3 id="186ec76d-2c1c-8009-a174-f043594ee98d" class="">Without Classes:</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="186ec76d-2c1c-8087-8747-e083fb953d79" class="code"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">let teams = [];
+
+function registerTeam(name, city) {
+  teams.push({ name, city, points: 0, goalsScored: 0 });
+}
+
+function recordMatch(teamName, goalsScored) {
+  const team = teams.find(team =&gt; team.name === teamName);
+  if (team) {
+    team.goalsScored += goalsScored;
+  }
+}
+
+registerTeam(&quot;Dream FC&quot;, &quot;Dreamland&quot;);
+recordMatch(&quot;Dream FC&quot;, 3);
+console.log(teams); // [{ name: &#x27;Dream FC&#x27;, city: &#x27;Dreamland&#x27;, points: 0, goalsScored: 3 }]</code></pre><h3 id="186ec76d-2c1c-80e5-8cd9-d2eeba11325e" class="">With Classes:</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="186ec76d-2c1c-8073-acf9-f59990ffa4d3" class="code"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">class Team {
+  constructor(name, city) {
+    this.name = name;
+    this.city = city;
+    this.points = 0;
+    this.goalsScored = 0;
+  }
+
+  recordMatch(goalsScored) {
+    this.goalsScored += goalsScored;
+  }
+
+  displayInfo() {
+    console.log(`Team: ${this.name}, City: ${this.city}, Goals Scored: ${this.goalsScored}`);
+  }
+}
+
+const team1 = new Team(&quot;Dream FC&quot;, &quot;Dreamland&quot;);
+team1.recordMatch(3);
+team1.displayInfo(); // Team: Dream FC, City: Dreamland, Goals Scored: 3
+</code></pre><p id="186ec76d-2c1c-80d0-b698-e77b3a50c6ae" class="">By using classes, you can:</p><ul id="186ec76d-2c1c-8028-8f90-faa22040663f" class="bulleted-list"><li style="list-style-type:disc">Avoid polluting the global namespace with multiple variables and functions.</li></ul><ul id="186ec76d-2c1c-805a-b5e5-ff650f260c1d" class="bulleted-list"><li style="list-style-type:disc">Keep related data and behaviour together in a single, reusable unit.</li></ul><hr id="186ec76d-2c1c-809e-9c8f-c8f67978be63"/><p id="186ec76d-2c1c-80b8-b195-cbee41df0c27" class="">In the following sections, you’ll learn how to fully transition the earlier football league example into a class-based system, explore more advanced features like inheritance, and see how OOP principles like <strong>encapsulation</strong> and <strong>abstraction</strong> further simplify complex systems.</p><hr id="186ec76d-2c1c-80a1-956e-f2ecf9f43e71"/><h2 id="186ec76d-2c1c-80aa-8cb8-c4f62a06c73a" class="">4. Transitioning the Football Example to OOP</h2><p id="186ec76d-2c1c-80d2-8664-d1aeb3baa4a8" class="">Instead of having global variables like <code>teams</code> and multiple standalone functions, we can create <strong>classes</strong> (blueprints for objects) that logically organize our data and methods.</p><h3 id="186ec76d-2c1c-80ec-9886-c07cbf471df1" class="">4.1 Creating a <code>Team</code> Class</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="186ec76d-2c1c-801a-b212-d5c80070b914" class="code"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">class Team {
+  constructor(name) {
+    this.name = name;
+    this.wins = 0;
+    this.draws = 0;
+    this.losses = 0;
+    this.goalsScored = 0;
+    this.goalsConceded = 0;
+  }
+
+  // Method to update stats after a match
+  recordMatch(goalsFor, goalsAgainst) {
+    this.goalsScored += goalsFor;
+    this.goalsConceded += goalsAgainst;
+
+    if (goalsFor &gt; goalsAgainst) {
+      this.wins += 1;
+    } else if (goalsFor &lt; goalsAgainst) {
+      this.losses += 1;
+    } else {
+      this.draws += 1;
+    }
+  }
+
+  // Method to display team info
+  getTeamInfo() {
+    return `Team: ${this.name}, Wins: ${this.wins}, Draws: ${this.draws}, Losses: ${this.losses}`;
+  }
+}
+</code></pre><p id="186ec76d-2c1c-800a-9efe-ee6ce9256efc" class="">Here, each <code>Team</code> object has its own data (<code>name</code>, <code>wins</code>, <code>draws</code>, etc.) and methods (<code>recordMatch</code>, <code>getTeamInfo</code>). This is <strong>encapsulation</strong> in action: the data and the logic to handle that data are combined in one place.</p><h3 id="186ec76d-2c1c-8019-a6fe-e4fa7cd1f409" class="">4.2 Creating a <code>League</code> Class</h3><p id="186ec76d-2c1c-801d-a3b3-c777288fe75b" class="">We might have a separate class <code>League</code> to keep track of all teams and handle league-wide statistics.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="186ec76d-2c1c-8019-825a-c60c24952af9" class="code"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">class League {
+  constructor() {
+    this.teams = [];
+  }
+
+  addTeam(teamName) {
+    const newTeam = new Team(teamName);
+    this.teams.push(newTeam);
+  }
+
+  recordMatchResult(homeTeamName, awayTeamName, homeGoals, awayGoals) {
+    const homeTeam = this.teams.find(team =&gt; team.name === homeTeamName);
+    const awayTeam = this.teams.find(team =&gt; team.name === awayTeamName);
+
+    if (!homeTeam || !awayTeam) {
+      console.log(&quot;Error: One or both teams not found in the league!&quot;);
+      return;
+    }
+
+    homeTeam.recordMatch(homeGoals, awayGoals);
+    awayTeam.recordMatch(awayGoals, homeGoals);
+  }
+
+  calculateLeagueStats() {
+    let totalTeamMatches = 0;
+    let totalGoals = 0;
+    this.teams.forEach(team =&gt; {
+      totalTeamMatches += (team.wins + team.draws + team.losses);
+      totalGoals += team.goalsScored;
+    });
+
+    const totalMatches = totalTeamMatches / 2;
+    const averageGoalsPerMatch = totalMatches ? (totalGoals / totalMatches) : 0;
+
+    return {
+      totalMatches,
+      totalGoals,
+      averageGoalsPerMatch
+    };
+  }
+
+  displayStandings() {
+    console.log(&quot;League Standings:&quot;);
+    this.teams.forEach(team =&gt; {
+      console.log(team.getTeamInfo());
+    });
+  }
+}
+</code></pre><p id="186ec76d-2c1c-8059-8224-fa4ca80a1d41" class="">Now we have a clear separation:</p><ul id="186ec76d-2c1c-8052-b401-d72db88472a3" class="bulleted-list"><li style="list-style-type:disc"><code>Team</code>: The data and methods for a single team.</li></ul><ul id="186ec76d-2c1c-80d1-a054-c2287b1b0181" class="bulleted-list"><li style="list-style-type:disc"><code>League</code>: Manages multiple teams and coordinates matches, stats, and standings.</li></ul><h3 id="186ec76d-2c1c-803e-9fd9-c3e4905369c2" class="">4.3 Using Our Classes</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="186ec76d-2c1c-8088-bc40-f96f067b3cdb" class="code"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">// Creating a league instance
+const myLeague = new League();
+
+// Add teams
+myLeague.addTeam(&quot;Dream FC&quot;);
+myLeague.addTeam(&quot;Phoenix United&quot;);
+myLeague.addTeam(&quot;Sunrise FC&quot;);
+
+// Record matches
+myLeague.recordMatchResult(&quot;Dream FC&quot;, &quot;Phoenix United&quot;, 3, 1);
+myLeague.recordMatchResult(&quot;Dream FC&quot;, &quot;Sunrise FC&quot;, 2, 2);
+myLeague.recordMatchResult(&quot;Phoenix United&quot;, &quot;Sunrise FC&quot;, 4, 3);
+
+// Display standings
+myLeague.displayStandings();
+
+// Calculate stats
+const leagueStats = myLeague.calculateLeagueStats();
+console.log(&quot;League Stats:&quot;, leagueStats);
+</code></pre><hr id="186ec76d-2c1c-80a2-bb44-e2ca510cefad"/><h2 id="186ec76d-2c1c-8027-b770-d8e42b1bace4" class="">5. OOP Principles Recap</h2><p id="186ec76d-2c1c-802b-ae16-f4ab4fc9fb96" class="">Here are some <strong>key OOP principles</strong> demonstrated:</p><ol type="1" id="186ec76d-2c1c-8048-8281-cb874733b4ca" class="numbered-list" start="1"><li><strong>Encapsulation</strong>: We contained the <code>Team</code> data (wins, draws, losses, etc.) and the behavior (recordMatch, getTeamInfo) in the <code>Team</code> class. We contained the league-wide logic in the <code>League</code> class.</li></ol><ol type="1" id="186ec76d-2c1c-802a-a681-fa26b3a9549b" class="numbered-list" start="2"><li><strong>Abstraction</strong>: We’re hiding internal details of how exactly the match results get recorded. From outside the <code>Team</code> class, you just call <code>team.recordMatch(...)</code> without caring about the exact steps involved.</li></ol><ol type="1" id="186ec76d-2c1c-8009-a315-e086acf3b4d5" class="numbered-list" start="3"><li><strong>Inheritance</strong> (Not explicitly shown yet): One class can extend another class to inherit its properties and methods. For instance, if you had a specialized type of team (like a “Veteran Team” with some special properties), you could extend the <code>Team</code> class.</li></ol><ol type="1" id="186ec76d-2c1c-806c-9a74-c4bf5c5d5f52" class="numbered-list" start="4"><li><strong>Polymorphism</strong> (Not explicitly shown yet): Different classes can have methods with the same name but different implementations. This is often used in more complex situations.</li></ol><hr id="186ec76d-2c1c-8062-b868-cb7c0849ed7f"/><h2 id="186ec76d-2c1c-8033-a1d9-dcc9f2eca081" class="">6. Exercises to Deepen Your Understanding</h2><ol type="1" id="186ec76d-2c1c-8006-a149-c72ffeb1ac66" class="numbered-list" start="1"><li><strong>More Teams, More Matches</strong><ul id="186ec76d-2c1c-8056-99ca-de002e86fcce" class="bulleted-list"><li style="list-style-type:disc">Create 5–6 teams in the league.</li></ul><ul id="186ec76d-2c1c-809a-9ee3-ef1e1c205730" class="bulleted-list"><li style="list-style-type:disc">Record multiple matches (10 or more), simulating a mini-season.</li></ul><ul id="186ec76d-2c1c-8083-91ee-f500f4c660ba" class="bulleted-list"><li style="list-style-type:disc">Use <code>displayStandings()</code> and <code>calculateLeagueStats()</code> to see the results.</li></ul></li></ol><ol type="1" id="186ec76d-2c1c-80f2-840d-eb4c31fcf482" class="numbered-list" start="2"><li><strong>Adding a Tournament or Cup</strong><ul id="186ec76d-2c1c-80cc-bb1f-cf2435e7ccc8" class="bulleted-list"><li style="list-style-type:disc">Create a new class <code>Cup</code> that also has teams but eliminates teams when they lose.</li></ul><ul id="186ec76d-2c1c-80f8-bdc0-df951e403255" class="bulleted-list"><li style="list-style-type:disc">This will help you practice OOP by creating a different object with its own logic.</li></ul></li></ol><ol type="1" id="186ec76d-2c1c-807c-a0e7-db65088c7408" class="numbered-list" start="3"><li><strong>Enhancing the </strong><code><strong>Team</strong></code><strong> Class</strong><ul id="186ec76d-2c1c-80e5-9a30-e55d9c46681e" class="bulleted-list"><li style="list-style-type:disc">Add a property for the name of the team’s <strong>coach</strong>.</li></ul><ul id="186ec76d-2c1c-8018-a149-e24bc5f7e1b3" class="bulleted-list"><li style="list-style-type:disc">Add a method to change the coach mid-season (<code>changeCoach()</code>).</li></ul><ul id="186ec76d-2c1c-809a-bf3b-f8f94821a193" class="bulleted-list"><li style="list-style-type:disc">Print out the updated coach information in <code>getTeamInfo()</code>.</li></ul></li></ol><ol type="1" id="186ec76d-2c1c-806c-b9e0-d5be3a2a41ea" class="numbered-list" start="4"><li><strong>Explore Inheritance</strong><ul id="186ec76d-2c1c-804d-b17d-cc7ebf7d967d" class="bulleted-list"><li style="list-style-type:disc">Create a <code>SpecialTeam</code> class that <strong>extends</strong> <code>Team</code>. For example, a “ChampionTeam” might start the season with some “bonus points” or some special rules.</li></ul></li></ol><ol type="1" id="186ec76d-2c1c-80d1-9f49-c9f03f2c0a88" class="numbered-list" start="5"><li><strong>Stats Output</strong><ul id="186ec76d-2c1c-809b-b3b4-e3f70b6ce5ab" class="bulleted-list"><li style="list-style-type:disc">Write a method in <code>League</code> to display which team has the highest goals scored, which team has the highest goals conceded, etc. This encourages reading and processing your array of <code>Team</code> objects more deeply.</li></ul></li></ol><ol type="1" id="186ec76d-2c1c-80c6-ace9-f58c2ed235d6" class="numbered-list" start="6"><li><strong>Practice with Another Scenario</strong><ul id="186ec76d-2c1c-80bf-a64c-e0be8031c52a" class="bulleted-list"><li style="list-style-type:disc">If you’re interested in other examples, pick another scenario (like a “Movie Collection” or “Online Store Inventory System”) to build out classes and methods.</li></ul><ul id="186ec76d-2c1c-8008-9063-fe6689a0f37e" class="bulleted-list"><li style="list-style-type:disc">The logic is the same: group related data (properties) and behaviors (methods) into classes that make sense for the domain you’re modeling.</li></ul></li></ol><hr id="186ec76d-2c1c-80b9-958d-c0ff1ea89747"/><h2 id="186ec76d-2c1c-802e-ab29-d2d24b179a9c" class="">7. Additional Interesting Examples Outside Football</h2><p id="186ec76d-2c1c-80bd-baa0-dcf81f08f8e5" class="">While the football example helps you grasp the concepts, it’s beneficial to see OOP can be applied to almost <strong>any</strong> domain:</p><ol type="1" id="186ec76d-2c1c-80b6-8b8d-ef8d6df88c93" class="numbered-list" start="1"><li><strong>Movie Library</strong><ul id="186ec76d-2c1c-804a-9e48-e97880f42fe3" class="bulleted-list"><li style="list-style-type:disc"><strong>Classes</strong>: <code>Movie</code>, <code>Actor</code>, <code>MovieCollection</code></li></ul><ul id="186ec76d-2c1c-80ed-bf19-eb7bdf8ebbae" class="bulleted-list"><li style="list-style-type:disc"><strong>Properties</strong>: Title, genre, releaseYear, rating, etc.</li></ul><ul id="186ec76d-2c1c-8015-9f5d-d3db924a487c" class="bulleted-list"><li style="list-style-type:disc"><strong>Methods</strong>: <code>addMovie()</code>, <code>removeMovie()</code>, <code>searchByActor()</code>, <code>getHighestRatedMovie()</code></li></ul></li></ol><ol type="1" id="186ec76d-2c1c-8039-a573-dbcfc89f083a" class="numbered-list" start="2"><li><strong>Online Store</strong><ul id="186ec76d-2c1c-80d9-95b4-d64ef7affb10" class="bulleted-list"><li style="list-style-type:disc"><strong>Classes</strong>: <code>Product</code>, <code>Cart</code>, <code>Customer</code>, <code>Order</code></li></ul><ul id="186ec76d-2c1c-8076-8d78-e412d1c9663a" class="bulleted-list"><li style="list-style-type:disc"><strong>Properties</strong>: <code>Product.name</code>, <code>Cart.items</code>, <code>Customer.name</code>, etc.</li></ul><ul id="186ec76d-2c1c-80d8-9316-daa7c667b3e0" class="bulleted-list"><li style="list-style-type:disc"><strong>Methods</strong>: <code>addToCart()</code>, <code>calculateTotal()</code>, <code>placeOrder()</code></li></ul></li></ol><p id="186ec76d-2c1c-808c-b4c4-d4bf3a348135" class="">The idea remains the same—create classes to represent entities in your problem, with properties that describe the entity and methods that perform actions on it.</p><hr id="186ec76d-2c1c-804f-a913-df30adad9bfd"/><h2 id="186ec76d-2c1c-80de-bda0-d1b1f8570777" class="">8. Conclusion</h2><p id="186ec76d-2c1c-8030-be9b-fff10d830e35" class="">By following this guide:</p><ul id="186ec76d-2c1c-8037-b9dc-c37d8cf5c898" class="bulleted-list"><li style="list-style-type:disc">You’ve learned <strong>why functions</strong> are crucial and how they help modularize your code.</li></ul><ul id="186ec76d-2c1c-80fc-a107-e9252a5b23a1" class="bulleted-list"><li style="list-style-type:disc">You’ve seen how a growing application with many functions can become more maintainable using <strong>Object-Oriented Programming</strong>.</li></ul><ul id="186ec76d-2c1c-8099-a9f0-c9adb2723724" class="bulleted-list"><li style="list-style-type:disc">You’ve built a small OOP system to track a football league with <code>Team</code> and <code>League</code> classes.</li></ul><ul id="186ec76d-2c1c-80ae-876c-d701ac4883fc" class="bulleted-list"><li style="list-style-type:disc">You’ve been exposed to <strong>OOP principles</strong> like encapsulation and abstraction.</li></ul><p id="186ec76d-2c1c-8049-9634-d47f0b3ba462" class="">Going forward, continue practicing by <strong>building small projects</strong>:</p><ul id="186ec76d-2c1c-8042-b5f3-f415b91d973e" class="bulleted-list"><li style="list-style-type:disc">Start with a simple version and gradually increase complexity.</li></ul><ul id="186ec76d-2c1c-800e-b192-e4100b7d758a" class="bulleted-list"><li style="list-style-type:disc">Apply the OOP concepts: break your problem into logical objects, define classes for them, and keep relevant data and logic in each class.</li></ul><p id="186ec76d-2c1c-8013-b3d6-e2eccd484562" class="">Remember, OOP is not just about JavaScript—it’s a paradigm used in many languages (Java, C++, Python, etc.). The principles remain largely the same, though syntactic details vary.</p><hr id="186ec76d-2c1c-802a-bbb5-ede5c2d0df7c"/>
+<p id="186ec76d-2c1c-8052-8710-db34ad0a6485" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span>
+
+<script>
+  const copyButtonLabel = "Copy Code";
+
+  // only pre elements that have a code as a child
+  let blocks = document.querySelectorAll("pre:has(code)");
+
+  blocks.forEach((block) => {
+    // only add button if browser supports Clipboard API
+    if (navigator.clipboard) {
+      let button = document.createElement("button");
+
+      button.innerText = copyButtonLabel;
+      block.appendChild(button);
+
+      button.addEventListener("click", async () => {
+        await copyCode(block, button);
+      });
+    }
+  });
+
+  async function copyCode(block, button) {
+    let code = block.querySelector("code");
+    let text = code.innerText;
+
+    await navigator.clipboard.writeText(text);
+
+    // visual feedback that task is completed
+    button.innerText = "Code Copied";
+
+    setTimeout(() => {
+      button.innerText = copyButtonLabel;
+    }, 700);
+  }
+</script>
+</body></html>
